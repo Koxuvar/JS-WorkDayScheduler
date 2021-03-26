@@ -49,10 +49,12 @@ function makeBlocks(arr)
         let hourSlot = $('<td/>')
             .text(hourObj.hour)
             .addClass('hour');
+        let form = $('<input/>');
         let descSlot = $('<td/>')
             .text(hourObj.description)
             .addClass('description')
-            .attr('data-desc-index', index);
+            .attr('data-desc-index', index)
+            .append(form);
         
         const timeCheck = moment().diff(moment(hourObj.hour, 'h a'), 'minutes');
         
