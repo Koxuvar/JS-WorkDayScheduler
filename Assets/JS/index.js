@@ -123,7 +123,7 @@ $("body").on("click", "#save-button", e => {
  */
 $(function()
 {
-    if(getBlocks())
+    if(getBlocks() != null)
     {
         makeBlocks(getBlocks());
     }
