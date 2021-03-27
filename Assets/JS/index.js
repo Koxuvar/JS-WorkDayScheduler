@@ -1,14 +1,10 @@
-
-let rightNow; //global variable to keep track of time
-
 /**
  * displayDay
  * Uses moment to get the current day, date and time and sets the text content of the <p> element with id 'currentDay'
- * Also Updates the global variable rightNow for use in other functions
  */
 function displayDay()
 {
-    rightNow = moment().format('dddd, MMM Do YYYY, h:mm:ss a');
+    let rightNow = moment().format('dddd, MMM Do YYYY, h:mm:ss a');
     $('#currentDay').text(rightNow)
 }
 
