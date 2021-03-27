@@ -23,6 +23,7 @@ textarea{
 
 .description{
   white-space: pre-wrap;
+  width: 85%;
 }
 
 .time-block{

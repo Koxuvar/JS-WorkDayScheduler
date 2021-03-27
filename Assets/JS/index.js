@@ -21,15 +21,15 @@ setInterval(displayDay, 1000);
  * Array of objects to be made into timeblocks
  */
 const workHours = [
-    {hour:'9 AM',description:' '},
+    {hour:'09 AM',description:' '},
     {hour:'10 AM',description:' '},
     {hour:'11 AM',description:' '},
     {hour:'12 PM',description:' '},
-    {hour:'1 PM',description:' '},
-    {hour:'2 PM',description:' '},
-    {hour:'3 PM',description:' '},
-    {hour:'4 PM',description:' '},
-    {hour:'5 PM',description:' '}
+    {hour:'01 PM',description:' '},
+    {hour:'02 PM',description:' '},
+    {hour:'03 PM',description:' '},
+    {hour:'04 PM',description:' '},
+    {hour:'05 PM',description:' '}
 ]
 
 /**
@@ -49,11 +49,13 @@ function makeBlocks(arr)
         let hourSlot = $('<td/>')
             .text(hourObj.hour)
             .addClass('hour');
-        let form = $('<input/>');
+        let form = $('<textarea/>')
+            .attr('name', 'desc-' + index)
+            .attr('id', 'description')
+            .attr('cols', '100%');
         let descSlot = $('<td/>')
             .text(hourObj.description)
             .addClass('description')
-            .attr('data-desc-index', index)
             .append(form);
         
         const timeCheck = moment().diff(moment(hourObj.hour, 'h a'), 'minutes');
@@ -71,10 +73,11 @@ function makeBlocks(arr)
             descSlot.addClass('future');
         }
         
+        let saveIcon = $('<i/>')
+            .addClass('fas fa-save');
         let saveSlot = $('<td/>')
             .addClass('saveBtn')
-            .append('<i/>')
-            .addClass('fas fa-save');
+            .append(saveIcon);
 
         table.append(row.append(hourSlot, descSlot, saveSlot));
     })
@@ -82,4 +85,6 @@ function makeBlocks(arr)
     return $('#timeblock-container').append(table);
 }
 
-makeBlocks(workHours);
+
+
+$(makeBlocks(workHours));
