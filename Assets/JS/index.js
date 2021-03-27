@@ -20,7 +20,7 @@ setInterval(displayDay, 1000);
 /**
  * Array of objects to be made into timeblocks
  */
-const workHours = [
+let workHours = [
     {hour:'09 AM',description:' '},
     {hour:'10 AM',description:' '},
     {hour:'11 AM',description:' '},
@@ -36,7 +36,6 @@ const workHours = [
  * makeBlocks()
  * Takes in an array of objects and generates a table to be displayed with those objects
  * @param {Array} arr array of objects to be displayed
- * @returns 
  */
 function makeBlocks(arr)
 {
@@ -50,11 +49,11 @@ function makeBlocks(arr)
             .text(hourObj.hour)
             .addClass('hour');
         let form = $('<textarea/>')
-            .attr('name', 'desc-' + index)
+            .attr('name', index)
             .attr('id', 'description')
-            .attr('cols', '100%');
+            .attr('cols', '100%')
+            .text(hourObj.description);
         let descSlot = $('<td/>')
-            .text(hourObj.description)
             .addClass('description')
             .append(form);
         
@@ -77,6 +76,7 @@ function makeBlocks(arr)
             .addClass('fas fa-save');
         let saveSlot = $('<td/>')
             .addClass('saveBtn')
+            .attr('id', 'save-button')
             .append(saveIcon);
 
         table.append(row.append(hourSlot, descSlot, saveSlot));
@@ -85,6 +85,58 @@ function makeBlocks(arr)
     return $('#timeblock-container').append(table);
 }
 
+/**
+ * storeBlocks
+ * takes a given array and stores it in local storage under the key 'time-blocks'
+ * @param {Array} arr 
+ */
+function storeBlocks(arr)
+{
+    localStorage.setItem('time-blocks', JSON.stringify(arr));
+}
+
+/**
+ * getBlocks
+ * retrieves the array stored in the 'time-blocks' key in local storage
+ * @returns array stored at key 'time-blocks' in local storage
+ */
+function getBlocks()
+{
+    let arrLocSt = JSON.parse(localStorage.getItem('time-blocks'));
+    workHours = arrLocSt;
+    return arrLocSt;
+}
+
+/**
+ * Event Listener for a click on the save button td to then take whats in the text area and store it to the array 'workHours'
+ * the array is then stored to local storage
+ */
+$("body").on("click", "#save-button", e => {
+    const targetTest = e.target.nodeName === 'TD';
+
+    let descBox = targetTest ? e.target.previousSibling.firstElementChild : e.target.parentElement.previousSibling.firstElementChild;
+    let index = descBox.name;
+
+    workHours[index].description = descBox.value;
+    storeBlocks(workHours);
+});
+
+/**
+ * when document is ready, first check if an array is already stored in local storage and then use it or use the blank template arr to make the table
+ * calls displayDay once so page doesnt wait 1 second before displaying day date and time.
+ */
+$(function()
+{
+    if(getBlocks())
+    {
+        makeBlocks(getBlocks());
+    }
+    else
+    {
+        makeBlocks(workHours);
+    }
+    
+    displayDay();
+});
 
 
-$(makeBlocks(workHours));
