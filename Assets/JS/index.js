@@ -99,7 +99,10 @@ function storeBlocks(arr)
 function getBlocks()
 {
     let arrLocSt = JSON.parse(localStorage.getItem('time-blocks'));
-    workHours = arrLocSt;
+    if(arrLocSt != null)
+    {
+        workHours = arrLocSt;
+    }
     return arrLocSt;
 }
 
@@ -123,7 +126,7 @@ $("body").on("click", "#save-button", e => {
  */
 $(function()
 {
-    if(getBlocks() != null)
+    if(getBlocks())
     {
         makeBlocks(getBlocks());
     }
